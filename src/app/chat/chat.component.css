@@ -1,0 +1,17 @@
+mat-drawer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .example-container {
+    height: 90vh;
+  }
+  .chatInput{
+    border-radius: 50px;
+  }
+  .msgInput{
+    border-radius: 30px;
+  }
+  .msgCentre{
+    height: 73vh;
+  }

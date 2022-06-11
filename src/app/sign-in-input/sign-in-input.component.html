@@ -1,0 +1,39 @@
+<form [formGroup]="userForm" class="p-5">
+    <div class="float-right">
+        <input type="file" id="userPic" class="d-none">
+        <button class="btn" mat-raised-button (click)="openFile()">Upload</button>
+    </div>
+    <mat-form-field class="w-100">
+        <mat-label>Full Name</mat-label>
+        <input type="text" matInput placeholder="" formControlName="fullname" #fname name="fname" maxlength="" class="text-muted" appUserformValidator>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput placeholder="" formControlName="email" name="email" maxlength="" class="text-muted" appEmailValidator>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Phone Number</mat-label>
+        <input type="text" matInput placeholder="" formControlName="phone" name="phone" maxlength="" class="text-muted" appPhoneNumValidator>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Address</mat-label>
+        <input type="text" matInput placeholder="" formControlName="address" name="add" maxlength="" class="text-muted">
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput placeholder="" formControlName="username" name="username" maxlength="" class="text-muted">
+    </mat-form-field>
+    <div class="form-row">
+        <mat-form-field class="form-group col-6 w-100">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="" formControlName="pword" name="pword" minlength="6" class="text-muted">
+        </mat-form-field>
+        <mat-form-field class="form-group col-6 w-100">
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput placeholder="" formControlName="confirm_pword" name="conf_pword" minlength="6" class="text-muted">
+        </mat-form-field>
+    </div>
+    <h5 class="text-danger animate__animated animate__zoomIn animate__slower">{{reply}}</h5>
+    <button class="btn btn-warning" mat-raised-button (click)="signUp()" [disabled]="userForm.invalid">SIGN UP</button> <span class="pr-2 pl-2 text-muted">or</span>
+    <button class="btn" mat-raised-button (click)='signIn()'>SIGN IN</button>
+</form>

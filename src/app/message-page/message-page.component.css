@@ -1,0 +1,11 @@
+.allMsg{
+    overflow-y: auto;
+}
+.toTheRight{
+    background-color: green !important;
+    float: right !important;
+}
+.toTheLeft{
+    background-color: red !important;
+    float: left !important; 
+}

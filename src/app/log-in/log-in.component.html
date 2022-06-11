@@ -1,0 +1,13 @@
+<form class="m-5 pt-5">
+    <mat-form-field class="w-100">
+        <mat-label>Username Or Email</mat-label>
+        <input type="text" matInput [(ngModel)]="username" name="user/email" class="text-muted">
+    </mat-form-field>
+    <mat-form-field class="w-100">
+        <mat-label>Password</mat-label>
+        <input type="password" accent matInput  [(ngModel)]="pword" name="pword" class="text-muted">
+    </mat-form-field>
+    <h5 class="text-danger">{{reply}}</h5>
+    <button class="btn btn-warning" mat-raised-button (click)='signIn()'>SIGN IN</button> <span class="pr-2 pl-2 text-muted">or</span>
+    <button class="btn" mat-raised-button (click)="signUp()">SIGN UP</button> 
+</form>

@@ -1,0 +1,83 @@
+<div class="container">
+    <mat-drawer-container class="example-container" [hasBackdrop]="true">
+        <mat-drawer #drawer [mode]="" class="" style="width: 250px;">
+            <div class="bg-warning w-100 p-2">
+                <h4 class="font-weight-bold pt-5 text-white" style="cursor: pointer;" (click)="drawer.toggle()"> Profile</h4>
+            </div>
+            <div class="bg-light">
+                <div class="bg-white" style="width: 150px; height: 150px; border-radius: 50%; margin-left: 40px; padding-top: 15px;"></div>
+            </div>
+            <div class="p-4">
+                <mat-form-field>
+                    <mat-label class="text-warning">Your Name</mat-label>
+                    <input type="text" class="font-weight-strong text-uppercase text-muted" matInput value="{{userName}}" readonly>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label class="text-warning">Phone Number</mat-label>
+                    <input type="text" class="text-muted" matInput value="{{phoneNum}}" readonly>
+                </mat-form-field>
+            </div>
+            <div class="bg-light p-4">
+                <mat-form-field>
+                    <mat-label class="text-warning">BIO</mat-label>
+                    <input type="text" class="text-muted" matInput readonly>
+                </mat-form-field>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content>
+            <div class="row bg-white p-2 w-100">
+                <div class="col-3">
+                    <div class="w-100" style="cursor: pointer;" (click)="drawer.toggle()">
+                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
+                        <span class="font-weight-bold text-uppercase">
+                            {{userName}}
+                        </span><br>
+                            <span class="text-muted pl-">{{phoneNum}}</span>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <span class="float-left font-weight-bold text-uppercase">
+                        <img *ngIf="userImage !== ''" [src]="userImage" class="bg-light rounded-circle" width="30px" height="30px" alt="">{{msgReceiver}}
+                    </span>
+                    <h6><i class="fa fa-search float-right"></i></h6>
+                </div>
+            </div>
+            <div class="row w-100 h-100">
+                <div class="col-3 border-right">
+                    <input type="text" placeholder="Search or filter your chat" [(ngModel)]="filterChat" name="filterChat" class="form-control m-2 chatInput">
+                    <div class="row bg-white">
+                        <div class="col-12">
+                            <table class="table table-white text-uppercase font-weight-bold">
+                                <tr>
+                                    <td (click)="general()" style="cursor: pointer;">
+                                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">General Group Chat
+                                    </td>
+                                    <hr>
+                                </tr>
+                                <tr *ngFor="let i = index; let user of contact | chatFilter:filterChat" style="cursor: pointer;">
+                                    <td (click)="receiver(i)">
+                                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
+                                        {{user.fullname}}
+                                        {{user.message}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 bg-warning msgCentre">
+                    <app-message-page [onlineIndex]="receiverIndex" [msgSenderIndex]="indexToChild" [logInIndex]="senderInd" [myMessage]="allMessages" [eachUserMsg]="eachMsg"></app-message-page>
+                    <div class="row m-2">
+                        <div class="col-9">
+                            <input type="text" placeholder="Type a message" name="msg" [(ngModel)]="msgText" class="form-control" style="border-radius: 30px;">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn text-warning rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg"></i></button>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </mat-drawer-content>
+      </mat-drawer-container>   
+</div>
