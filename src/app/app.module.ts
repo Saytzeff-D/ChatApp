@@ -22,6 +22,7 @@ import { ChatFilterPipe } from './pipes/chat-filter.pipe';
 import { MessagePageComponent } from './message-page/message-page.component';
 import { ChatComponent } from './chat/chat.component';
 import { MatCardModule } from '@angular/material/card';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MatCardModule } from '@angular/material/card';
     PhoneNumValidatorDirective,
     ChatFilterPipe,
     MessagePageComponent,
-    ChatComponent
+    ChatComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
