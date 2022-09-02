@@ -15,3 +15,10 @@ mat-drawer-content {
   .msgCentre{
     height: 73vh;
   }
+  .chat-page{
+    margin-top: -150px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+  .bg-chat-page {
+    background-color: #b6e2cd;
+  }

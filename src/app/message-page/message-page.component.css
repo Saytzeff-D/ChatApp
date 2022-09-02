@@ -2,10 +2,19 @@
     overflow-y: auto;
 }
 .toTheRight{
-    background-color: green !important;
-    float: right !important;
+    background-color: #e6ffe6 !important;
+    color: black !important;
+    min-width: 200px;
+    max-width: 350px !important;
+    /* float: right !important; */
 }
 .toTheLeft{
-    background-color: red !important;
-    float: left !important; 
+    background-color: #e6e6e6 !important;
+    color: black !important;
+    min-width: 200px;
+    max-width: 350px !important;
+    /* float: left !important; */
+}
+.msg-card {
+  border-radius: 10px;
 }

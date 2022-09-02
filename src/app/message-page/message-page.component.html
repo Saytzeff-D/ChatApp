@@ -1,20 +1,21 @@
 <div class="h-100 w-100 allMsg">
     <h6 class="bg-light text-center p-2 w-25 font-weight-bold">Say Hi to your new friends....</h6>
-    <mat-card *ngFor="let i = index; let msg of myMessage" class=" m-2 col-6 w-50 float-left text-white bg-danger" [class.toTheRight]="msg.sender">
-        <mat-card-header *ngIf="msg.type=='Group Chat'" class="w-100 border-bottom">
-            <div class="d-flex">
-                <span *ngIf="msg.senderName=='David Atanda'" class="justify-content-end">Admin</span>
-                <span *ngIf="msg.senderName!=='David Atanda'" class="justify-content-center">{{msg.senderName}}</span>
-            </div>
-            <!-- <span class=""><i class="fa fa-mail-reply-all text-white"></i></span> -->
-        </mat-card-header>
-        <mat-card-content class="pt-2">
-            <p class="">{{msg.message}}</p>
-        </mat-card-content>
-        <mat-card-footer class="float-right pr-2">
-            <p class="">{{msg.time}}</p>
-        </mat-card-footer>
-        </mat-card><br>
+    <div *ngFor="let i = index; let msg of myMessage" [class]="msg.sender ? 'd-flex justify-content-end' : 'd-flex justify-content-start'">
+      <mat-card class="m-2 msg-card" [class]="msg.sender ? 'toTheRight' : 'toTheLeft'">
+          <mat-card-header *ngIf="msg.type=='Group Chat'" class="w-100 border-dark border-bottom">
+              <div class="d-flex">
+                  <span *ngIf="msg.senderName=='David Atanda'" class="justify-content-end">Admin</span>
+                  <span *ngIf="msg.senderName!=='David Atanda'" class="justify-content-center">{{msg.senderName}}</span>
+              </div>
+              <!-- <span class=""><i class="fa fa-mail-reply-all text-white"></i></span> -->
+          </mat-card-header>
+          <mat-card-content class="">
+              <p class="">{{msg.message}}</p>
+          </mat-card-content>
+          <mat-card-footer class="float-right pr-auto">
+              <p class="">{{msg.time}}</p>
+          </mat-card-footer>
+          </mat-card>
+    </div>
     </div>
 
-    

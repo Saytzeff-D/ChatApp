@@ -1,4 +1,7 @@
-<div class="container">
+<div class="bg-chat-app p-5">
+  <div class="p-5"></div>
+</div>
+<div class="container chat-page">
     <mat-drawer-container class="example-container" [hasBackdrop]="true">
         <mat-drawer #drawer [mode]="" class="" style="width: 250px;">
             <div class="bg-warning w-100 p-2">
@@ -65,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9 bg-warning msgCentre">
+                <div class="col-9 bg-chat-page msgCentre">
                     <app-message-page [onlineIndex]="receiverIndex" [msgSenderIndex]="indexToChild" [logInIndex]="senderInd" [myMessage]="allMessages" [eachUserMsg]="eachMsg"></app-message-page>
                     <div class="row m-2">
                         <div class="col-9">
@@ -75,9 +78,9 @@
                             <button class="btn text-warning rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg"></i></button>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </mat-drawer-content>
-      </mat-drawer-container>   
+      </mat-drawer-container>
 </div>
