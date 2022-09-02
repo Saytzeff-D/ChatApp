@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap.css";
-@import "~font-awesome.css";
+/* @import "~bootstrap.css"; */
+/* @import "~font-awesome.css"; */
 @import "~animate.css";
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #000000 !important; }
+.bg-chat-app{
+  background-color: #4DBA87;
+  border-color: #4DBA87;
+}
+.text-chat-app {
+  color: #4DBA87
+}
+.display-1 {
+  font-size: 1rem;
+  font-weight: 50;
+  line-height: 1.2;
+}
