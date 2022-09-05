@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public phoneNum;
   public msgReceiver;
   public receiverIndex;
-  public msgText;
+  public msgText = ''
   public msgArr = [];
   public indexToChild;
   public senderInd = this.actRoute.snapshot.params.id;
@@ -54,14 +54,25 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.phoneNum = this.contact[userIndex].phone
     this.authImage = this.contact[userIndex].picture
     this.contact.splice(userIndex, 1)
-    this.recentGrpMsg = this.myMessage.filter(each=> each.type == 'Group Chat')[this.myMessage.filter(each=> each.type == 'Group Chat').length-1].message
-    this.userTray.getUser().map(user=> {
-      let currentUserMsg = this.myMessage.filter(each => each.senderId == userIndex+1 || each.receiverId == userIndex+1)
-      console.log(currentUserMsg)
-      let lastMsg = currentUserMsg.filter(msg => msg.senderId == user.id || msg.receiverId == user.id)
-      this.recentMsg.push(lastMsg[lastMsg.length -1].message)
+    if(this.myMessage !== null){
+      let grpLastMsg = this.myMessage.filter(each=> each.type == 'Group Chat')[this.myMessage.filter(each=> each.type == 'Group Chat').length-1]
+      grpLastMsg !== undefined ? this.recentGrpMsg = {message: grpLastMsg.message, sender: grpLastMsg.senderName, time: grpLastMsg.time} : ''
+    this.contact.map((user, i)=> {
+      let currentUserMsg = this.myMessage.filter(each => each.senderId == parseInt(userIndex)+1 || each.receiverId == parseInt(userIndex)+1)
+      let contactLastMsg = currentUserMsg.filter(msg => msg.senderId == user.id || msg.receiverId == user.id)
+      let recent  = contactLastMsg[contactLastMsg.length -1]
+      if(recent !== undefined){
+        recent.senderId = this.userTray.getUser().find(each=>each.id == recent.senderId).fullname
+        if(this.recentMsg.length == 0){
+          this.recentMsg.push(recent)
+        }else{
+          this.recentMsg.map(eachRecentMsg => {
+            eachRecentMsg !== recent ? this.recentMsg.push(recent) : console.log(eachRecentMsg)
+          })
+        }
+      } else this.recentMsg.push('No recent message')
     })
-    console.log(this.recentMsg)
+    }else console.log('No bulk message')
   }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -108,10 +119,10 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.msgArr = [...msgArr, grpMsgContent]
       localStorage.arrayOfMessage = JSON.stringify(this.msgArr)
       this.allMessages =  this.msgTray.myMessage()
-    this.allMessages = this.allMessages.filter(grpMsg=> grpMsg.type == 'Group Chat')
-    this.ngOnInit()
-    }
-    else{
+      this.allMessages = this.allMessages.filter(grpMsg=> grpMsg.type == 'Group Chat')
+      this.msgText = '';
+      this.ngOnInit()
+    }else{
       let msgContent = {senderId: this.userTray.getUser()[userArrIndex].id, receiverId: JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id, message: this.msgText, time: new Date().toLocaleTimeString(), sender: true}
       let {msgArr} = this
       this.msgArr = [...msgArr, msgContent]
@@ -119,11 +130,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.allMessages = this.msgTray.myMessage()
       let currentUser = this.userTray.getUser()[logInIndex].id;
       let onlineUser = JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id
-      this.allMessages= this.allMessages.filter(
-        each=> (each.senderId == currentUser  && each.receiverId == onlineUser || each.senderId == onlineUser && each.receiverId == currentUser)
-            )
-          }
-          this.msgText = '';
-          this.ngOnInit()
+      this.allMessages= this.allMessages.filter(each=> (each.senderId == currentUser  && each.receiverId == onlineUser || each.senderId == onlineUser && each.receiverId == currentUser))
+      this.msgText = '';
+      this.ngOnInit()
+    }
   }
 }

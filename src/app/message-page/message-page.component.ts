@@ -20,7 +20,7 @@ export class MessagePageComponent implements OnInit {
   @Input() eachUserMsg;
   public allUser = JSON.parse(localStorage.getItem('allUsers'))
   ngOnInit(): void {
-    console.log(this.allUser[this.logInIndex])
+    // console.log(this.allUser[this.logInIndex])
 
   }
   ngOnChanges(){

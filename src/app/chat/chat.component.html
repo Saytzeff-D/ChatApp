@@ -55,19 +55,45 @@
                                     <td (click)="general()" style="cursor: pointer;">
                                         <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
                                         <span class="font-weight-bold text-uppercase"> General Group Chat</span>
-                                        <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
-                                          {{recentGrpMsg}}
-                                        </p>
+                                        <div class="d-flex" *ngIf="recentGrpMsg && authUser !== recentGrpMsg.sender" >
+                                            <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                              <span class="font-weight-bold">{{recentGrpMsg.sender | slice:0:6}}</span>: {{recentGrpMsg.message | slice:0:20}}...
+                                            </p>
+                                            <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                              {{recentGrpMsg.time.split(':')[0] + ':' + recentGrpMsg.time.split(':')[1] + ' ' + recentGrpMsg.time.split(' ')[1]}}
+                                            </p>
+                                          </div>
+                                          <div class="d-flex" *ngIf="recentGrpMsg && authUser == recentGrpMsg.sender" >
+                                            <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                              <span class="font-weight-bold">You</span>: {{recentGrpMsg.message | slice:0:20}}...
+                                            </p>
+                                            <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                              {{recentGrpMsg.time.split(':')[0] + ':' + recentGrpMsg.time.split(':')[1] + ' ' + recentGrpMsg.time.split(' ')[1]}}
+                                            </p>
+                                          </div>
                                     </td>
                                     <hr>
                                 </tr>
                                 <tr *ngFor="let i = index; let user of contact | chatFilter:filterChat" style="cursor: pointer;" class="">
                                     <td (click)="receiver(i)">
                                         <img [src]="user.picture" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
-                                        <span class="font-weight-bold text-uppercase">{{user.fullname}}</span>
-                                        <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
-                                          {{recentMsg[i]}}
-                                        </p>
+                                        <span class="font-weight-bold text-uppercase"> {{user.fullname}}</span>
+                                        <div class="d-flex" *ngIf="recentMsg.length !== 0 && recentMsg[i].senderId && authUser !== recentMsg[i].senderId" >
+                                          <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                            <span class="font-weight-bold">{{recentMsg[i].senderId | slice:0:6}}</span>: {{recentMsg[i].message | slice:0:20}}...
+                                          </p>
+                                          <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                            {{recentMsg[i].time.split(':')[0] + ':' + recentMsg[i].time.split(':')[1] + ' ' + recentMsg[i].time.split(' ')[1]}}
+                                          </p>
+                                        </div>
+                                        <div class="d-flex" *ngIf="recentMsg.length !== 0 && recentMsg[i].senderId && authUser == recentMsg[i].senderId" >
+                                          <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                            <span class="font-weight-bold">You</span>: {{recentMsg[i].message | slice:0:20}}...
+                                          </p>
+                                          <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                            {{recentMsg[i].time.split(':')[0] + ':' + recentMsg[i].time.split(':')[1] + ' ' + recentMsg[i].time.split(' ')[1]}}
+                                          </p>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -81,7 +107,7 @@
                             <input type="text" placeholder="Type a message" name="msg" [(ngModel)]="msgText" class="form-control border-0" style="border-radius: 30px;">
                         </div>
                         <div class="col-3">
-                            <button class="btn text-warning rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg text-chat-app"></i></button>
+                            <button [disabled]="msgText == ''" class="btn rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg text-chat-app"></i></button>
                         </div>
                     </div>
 
