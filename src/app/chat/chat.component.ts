@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
 import { ActivatedRoute } from '@angular/router';
 import { MsgTrayService } from '../services/msg-tray.service';
 import { UserTrayService } from '../services/user-tray.service';
@@ -8,14 +9,27 @@ import { UserTrayService } from '../services/user-tray.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
-  constructor(public userTray: UserTrayService, public actRoute: ActivatedRoute, public msgTray: MsgTrayService) { }
+  constructor(
+    public userTray: UserTrayService,
+    public actRoute: ActivatedRoute,
+    public msgTray: MsgTrayService,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+   }
 
   public contact;
   public logInUser;
   public filterChat;
-  public userName;
+  public authUser;
+  public authImage;
   public phoneNum;
   public msgReceiver;
   public receiverIndex;
@@ -24,28 +38,33 @@ export class ChatComponent implements OnInit {
   public indexToChild;
   public senderInd = this.actRoute.snapshot.params.id;
   public allMessages;
-  public date = new Date();
   public eachMsg = [];
   public logInId;
   public userImage = ''
+  public recentMsg = []
+  public recentGrpMsg
+  public myMessage = []
+
   ngOnInit(): void {
+    this.recentMsg = []
+    this.myMessage = this.msgTray.myMessage()
     this.contact = this.userTray.getUser();
     let userIndex = this.actRoute.snapshot.params.id
-    this.userName = this.contact[userIndex].fullname
+    this.authUser = this.contact[userIndex].fullname
     this.phoneNum = this.contact[userIndex].phone
+    this.authImage = this.contact[userIndex].picture
     this.contact.splice(userIndex, 1)
-    this.userTray.getUser().map(all=>{
-      let currentUserMsg = this.msgTray.myMessage().filter(eachMsg => eachMsg.senderId == this.userTray.getUser()[userIndex].id || eachMsg.receiverId == this.userTray.getUser()[userIndex].id);
-      let lastMsg = currentUserMsg.filter(msg=> msg.receiverId == all.id || msg.senderId == all.id);
-      let recentMsg = lastMsg[lastMsg.length -1];
-      console.log(recentMsg)
-      if (recentMsg) {
-        all.message = recentMsg.message
-      }
-      else{
-        all.message = 'No recent message'
-      }
+    this.recentGrpMsg = this.myMessage.filter(each=> each.type == 'Group Chat')[this.myMessage.filter(each=> each.type == 'Group Chat').length-1].message
+    this.userTray.getUser().map(user=> {
+      let currentUserMsg = this.myMessage.filter(each => each.senderId == userIndex+1 || each.receiverId == userIndex+1)
+      console.log(currentUserMsg)
+      let lastMsg = currentUserMsg.filter(msg => msg.senderId == user.id || msg.receiverId == user.id)
+      this.recentMsg.push(lastMsg[lastMsg.length -1].message)
     })
+    console.log(this.recentMsg)
+  }
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   general(){
@@ -56,15 +75,15 @@ export class ChatComponent implements OnInit {
 
   }
   receiver(i){
-    this.userImage = `assets/${this.contact[i].picture}`
+    this.userImage = this.contact[i].picture
     let logInIndex = this.actRoute.snapshot.params.id;
     this.msgReceiver =  this.contact[i].fullname
     for (let j = 0; j < this.userTray.getUser().length; j++) {
       if (this.msgReceiver == this.userTray.getUser()[j].fullname) {
         this.receiverIndex = j;
-        
+
       }
-      
+
     }
     this.allMessages = this.msgTray.myMessage()
     let currentUser = this.userTray.getUser()[logInIndex].id;
@@ -84,26 +103,27 @@ export class ChatComponent implements OnInit {
       this.msgArr = []
     }
     if (this.msgReceiver == 'General Group Chat') {
-      let grpMsgContent = {senderId: this.userTray.getUser()[userArrIndex].id, senderName: this.userTray.getUser()[userArrIndex].fullname, type: 'Group Chat', message: this.msgText, sender:true, time: this.date.toLocaleTimeString()}
+      let grpMsgContent = {senderId: this.userTray.getUser()[userArrIndex].id, senderName: this.userTray.getUser()[userArrIndex].fullname, type: 'Group Chat', message: this.msgText, sender:true, time: new Date().toLocaleTimeString()}
       let {msgArr} = this
       this.msgArr = [...msgArr, grpMsgContent]
       localStorage.arrayOfMessage = JSON.stringify(this.msgArr)
       this.allMessages =  this.msgTray.myMessage()
     this.allMessages = this.allMessages.filter(grpMsg=> grpMsg.type == 'Group Chat')
+    this.ngOnInit()
     }
     else{
-      let msgContent = {senderId: this.userTray.getUser()[userArrIndex].id, receiverId: JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id, message: this.msgText, time: this.date.toLocaleTimeString(), sender: true}
+      let msgContent = {senderId: this.userTray.getUser()[userArrIndex].id, receiverId: JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id, message: this.msgText, time: new Date().toLocaleTimeString(), sender: true}
       let {msgArr} = this
       this.msgArr = [...msgArr, msgContent]
       localStorage.setItem('arrayOfMessage', JSON.stringify(this.msgArr))
       this.allMessages = this.msgTray.myMessage()
       let currentUser = this.userTray.getUser()[logInIndex].id;
-      let onlineUser = JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id 
+      let onlineUser = JSON.parse(localStorage.getItem('allUsers'))[this.receiverIndex].id
       this.allMessages= this.allMessages.filter(
         each=> (each.senderId == currentUser  && each.receiverId == onlineUser || each.senderId == onlineUser && each.receiverId == currentUser)
-        
             )
           }
           this.msgText = '';
+          this.ngOnInit()
   }
 }

@@ -4,7 +4,7 @@
 <div class="container chat-page">
     <mat-drawer-container class="example-container" [hasBackdrop]="true">
         <mat-drawer #drawer [mode]="" class="" style="width: 250px;">
-            <div class="bg-warning w-100 p-2">
+            <div class="bg-chat-app w-100 p-2">
                 <h4 class="font-weight-bold pt-5 text-white" style="cursor: pointer;" (click)="drawer.toggle()"> Profile</h4>
             </div>
             <div class="bg-light">
@@ -13,7 +13,7 @@
             <div class="p-4">
                 <mat-form-field>
                     <mat-label class="text-warning">Your Name</mat-label>
-                    <input type="text" class="font-weight-strong text-uppercase text-muted" matInput value="{{userName}}" readonly>
+                    <input type="text" class="font-weight-strong text-uppercase text-muted" matInput value="{{authUser}}" readonly>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label class="text-warning">Phone Number</mat-label>
@@ -28,40 +28,46 @@
             </div>
         </mat-drawer>
         <mat-drawer-content>
-            <div class="row bg-white p-2 w-100">
+            <div class="row bg-white p-2 w-100 mx-0">
                 <div class="col-3">
                     <div class="w-100" style="cursor: pointer;" (click)="drawer.toggle()">
-                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
+                        <img [src]="authImage" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
                         <span class="font-weight-bold text-uppercase">
-                            {{userName}}
+                            {{authUser}}
                         </span><br>
                             <span class="text-muted pl-">{{phoneNum}}</span>
                     </div>
                 </div>
                 <div class="col-9">
                     <span class="float-left font-weight-bold text-uppercase">
-                        <img *ngIf="userImage !== ''" [src]="userImage" class="bg-light rounded-circle" width="30px" height="30px" alt="">{{msgReceiver}}
+                        <img *ngIf="userImage !== ''" [src]="userImage" class="bg-light rounded-circle" width="30px" height="30px" alt=""> {{msgReceiver}}
                     </span>
-                    <h6><i class="fa fa-search float-right"></i></h6>
+                    <a href="/" class="float-right">Log out</a>
                 </div>
             </div>
-            <div class="row w-100 h-100">
+            <div class="row w-100 h-100 mx-0">
                 <div class="col-3 border-right">
                     <input type="text" placeholder="Search or filter your chat" [(ngModel)]="filterChat" name="filterChat" class="form-control m-2 chatInput">
                     <div class="row bg-white">
                         <div class="col-12">
-                            <table class="table table-white text-uppercase font-weight-bold">
+                            <table class="table table-white">
                                 <tr>
                                     <td (click)="general()" style="cursor: pointer;">
-                                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">General Group Chat
+                                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
+                                        <span class="font-weight-bold text-uppercase"> General Group Chat</span>
+                                        <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                          {{recentGrpMsg}}
+                                        </p>
                                     </td>
                                     <hr>
                                 </tr>
-                                <tr *ngFor="let i = index; let user of contact | chatFilter:filterChat" style="cursor: pointer;">
+                                <tr *ngFor="let i = index; let user of contact | chatFilter:filterChat" style="cursor: pointer;" class="">
                                     <td (click)="receiver(i)">
-                                        <img src="assets/grpLogo.png" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
-                                        {{user.fullname}}
-                                        {{user.message}}
+                                        <img [src]="user.picture" class="bg-light rounded-circle" width="30px" height="30px" alt="Group">
+                                        <span class="font-weight-bold text-uppercase">{{user.fullname}}</span>
+                                        <p class="text-muted my-0 py-0 pl-4" style="font-size: 10px">
+                                          {{recentMsg[i]}}
+                                        </p>
                                     </td>
                                 </tr>
                             </table>
@@ -72,10 +78,10 @@
                     <app-message-page [onlineIndex]="receiverIndex" [msgSenderIndex]="indexToChild" [logInIndex]="senderInd" [myMessage]="allMessages" [eachUserMsg]="eachMsg"></app-message-page>
                     <div class="row m-2">
                         <div class="col-9">
-                            <input type="text" placeholder="Type a message" name="msg" [(ngModel)]="msgText" class="form-control" style="border-radius: 30px;">
+                            <input type="text" placeholder="Type a message" name="msg" [(ngModel)]="msgText" class="form-control border-0" style="border-radius: 30px;">
                         </div>
                         <div class="col-3">
-                            <button class="btn text-warning rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg"></i></button>
+                            <button class="btn text-warning rounded-circle" mat-raised-button (click)="sendMsg()"><i class="fa fa-wechat fa-lg text-chat-app"></i></button>
                         </div>
                     </div>
 

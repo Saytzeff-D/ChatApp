@@ -4,7 +4,7 @@ mat-drawer-content {
     align-items: flex-start;
   }
   .example-container {
-    height: 90vh;
+    height: 92vh;
   }
   .chatInput{
     border-radius: 50px;
@@ -22,3 +22,4 @@ mat-drawer-content {
   .bg-chat-page {
     background-color: #b6e2cd;
   }
+
