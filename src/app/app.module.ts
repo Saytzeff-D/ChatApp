@@ -23,6 +23,9 @@ import { MessagePageComponent } from './message-page/message-page.component';
 import { ChatComponent } from './chat/chat.component';
 import { MatCardModule } from '@angular/material/card';
 import { NavComponent } from './nav/nav.component';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { NavComponent } from './nav/nav.component';
     MatInputModule,
     MatFormFieldModule,
     MatSidenavModule,
-    MatCardModule
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
