@@ -1,6 +1,7 @@
 <form [formGroup]="userForm" class="p-5">
     <div class="float-right">
-        <input type="file" id="userPic" class="d-none">
+        <input type="file" id="userPic" class="d-none" (change)="uploadPic($event)" >
+        {{file}}
         <button class="btn" mat-raised-button (click)="openFile()">Upload</button>
     </div>
     <mat-form-field class="w-100">
