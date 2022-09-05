@@ -1,21 +1,20 @@
 <div class="h-100 w-100 allMsg">
     <h6 class="bg-light text-center p-2 w-25 font-weight-bold">Say Hi to your new friends....</h6>
     <div *ngFor="let i = index; let msg of myMessage" [class]="msg.sender ? 'd-flex justify-content-end' : 'd-flex justify-content-start'">
-      <mat-card class="m-2 msg-card" [class]="msg.sender ? 'toTheRight' : 'toTheLeft'">
-          <mat-card-header *ngIf="msg.type=='Group Chat'" class="w-100 border-dark border-bottom">
-              <div class="d-flex">
-                  <span *ngIf="msg.senderName=='David Atanda'" class="justify-content-end">Admin</span>
-                  <span *ngIf="msg.senderName!=='David Atanda'" class="justify-content-center">{{msg.senderName}}</span>
+      <div class="m-2 msg-card" [class]="msg.sender ? 'toTheRight' : 'toTheLeft'">
+          <div *ngIf="msg.type=='Group Chat'" class="w-100 border-dark border-bottom">
+              <div class="d-flex justify-content-end p-1 px-2">
+                  <span *ngIf="msg.senderName=='Admin'" class="">~Admin</span>
+                  <span *ngIf="msg.senderName!=='Admin' && allUser[logInIndex].fullname !== msg.senderName" class="">~{{msg.senderName}}</span>
+                  <span *ngIf="msg.senderName!=='Admin' && allUser[logInIndex].fullname == msg.senderName" >~You</span>
               </div>
               <!-- <span class=""><i class="fa fa-mail-reply-all text-white"></i></span> -->
-          </mat-card-header>
-          <mat-card-content class="">
+          </div>
+          <div class="px-3 pt-2">
               <p class="">{{msg.message}}</p>
-          </mat-card-content>
-          <mat-card-footer class="float-right pr-auto">
-              <p class="">{{msg.time}}</p>
-          </mat-card-footer>
-          </mat-card>
+          </div>
+          <p class="float-right pr-1 py-0 my-0">{{msg.time.split(':')[0] + ':' + msg.time.split(':')[1] + ' ' + msg.time.split(' ')[1]}}</p>
+        </div>
     </div>
     </div>
 

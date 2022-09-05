@@ -18,21 +18,26 @@ export class MessagePageComponent implements OnInit {
   public senderOfMessage;
   public index;
   @Input() eachUserMsg;
+  public allUser = JSON.parse(localStorage.getItem('allUsers'))
   ngOnInit(): void {
-    
+    console.log(this.allUser[this.logInIndex])
+
   }
   ngOnChanges(){
     let msg = JSON.parse(localStorage.getItem('arrayOfMessage'))
-    for (let b = 0; b < msg.length; b++) {
-      if (this.userTray.getUser()[this.logInIndex].id == msg[b].senderId) {
-        msg[b].sender = true;
-        localStorage.arrayOfMessage = JSON.stringify(msg)
+    if(msg == null){}
+    else{
+      for (let b = 0; b < msg.length; b++) {
+        if (this.userTray.getUser()[this.logInIndex].id == msg[b].senderId) {
+          msg[b].sender = true;
+          localStorage.arrayOfMessage = JSON.stringify(msg)
+        }
+        else if(this.userTray.getUser()[this.logInIndex].id !== msg[b].senderId){
+          msg[b].sender = false;
+          localStorage.arrayOfMessage = JSON.stringify(msg)
+        }
+
       }
-      else if(this.userTray.getUser()[this.logInIndex].id !== msg[b].senderId){
-        msg[b].sender = false;
-        localStorage.arrayOfMessage = JSON.stringify(msg)
-      }
-      
     }
 
   }
