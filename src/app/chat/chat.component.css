@@ -22,4 +22,8 @@ mat-drawer-content {
   .bg-chat-page {
     background-color: #b6e2cd;
   }
+  .text-chat-page {
+    color: #b6e2cd !important;
+    font-weight: 100;
+  }
 

@@ -4,26 +4,26 @@
 <div class="container chat-page">
     <mat-drawer-container class="example-container" [hasBackdrop]="true">
         <mat-drawer #drawer [mode]="" class="" style="width: 250px;">
-            <div class="bg-chat-app w-100 p-2">
+            <div class="bg-chat-page w-100 p-2">
                 <h4 class="font-weight-bold pt-5 text-white" style="cursor: pointer;" (click)="drawer.toggle()"> Profile</h4>
             </div>
             <div class="bg-light">
-                <div class="bg-white" style="width: 150px; height: 150px; border-radius: 50%; margin-left: 40px; padding-top: 15px;"></div>
+                <img [src]="authImage" class="bg-white" style="width: 150px; height: 150px; border-radius: 50%; margin-left: 40px;">
             </div>
             <div class="p-4">
                 <mat-form-field>
-                    <mat-label class="text-warning">Your Name</mat-label>
-                    <input type="text" class="font-weight-strong text-uppercase text-muted" matInput value="{{authUser}}" readonly>
+                    <mat-label class="text-chat-page">Your Name</mat-label>
+                    <input type="text" class="font-weight-bold text-uppercase text-muted" matInput value="{{authUser}}" readonly>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label class="text-warning">Phone Number</mat-label>
-                    <input type="text" class="text-muted" matInput value="{{phoneNum}}" readonly>
+                    <mat-label class="text-chat-page">Phone Number</mat-label>
+                    <input type="text" class="font-weight-bold text-muted" matInput value="{{phoneNum}}" readonly>
                 </mat-form-field>
             </div>
             <div class="bg-light p-4">
                 <mat-form-field>
-                    <mat-label class="text-warning">BIO</mat-label>
-                    <input type="text" class="text-muted" matInput readonly>
+                    <mat-label class="text-chat-page">BIO</mat-label>
+                    <input type="text" class="font-weight-bold text-muted" matInput readonly>
                 </mat-form-field>
             </div>
         </mat-drawer>
@@ -42,7 +42,7 @@
                     <span class="float-left font-weight-bold text-uppercase">
                         <img *ngIf="userImage !== ''" [src]="userImage" class="bg-light rounded-circle" width="30px" height="30px" alt=""> {{msgReceiver}}
                     </span>
-                    <a href="/" class="float-right">Log out</a>
+                    <div (click)="logout()" class="float-right btn btn-outline-success">Log out</div>
                 </div>
             </div>
             <div class="row w-100 h-100 mx-0">

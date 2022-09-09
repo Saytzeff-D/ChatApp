@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MsgTrayService } from '../services/msg-tray.service';
 import { UserTrayService } from '../services/user-tray.service';
 
@@ -18,7 +18,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     public actRoute: ActivatedRoute,
     public msgTray: MsgTrayService,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    public router: Router
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -78,6 +79,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
+  logout(){
+    sessionStorage.removeItem('logIn')
+    this.router.navigate(['/signup/login'])
+  }
   general(){
     this.msgReceiver = 'General Group Chat'
     this.userImage = 'assets/grpLogo.png'
