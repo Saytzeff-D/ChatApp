@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MatButtonModule } from '@angular/material/button';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -30,7 +29,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     NotFoundComponent,
     SignInComponent,
     SignInMessageComponent,

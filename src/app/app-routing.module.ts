@@ -2,15 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChatComponent } from './chat/chat.component';
 import { ChatPageGuard } from './guards/chat-page.guard';
-import { HomeComponent } from './home/home.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { SignInInputComponent } from './sign-in-input/sign-in-input.component';
 import { SignInMessageComponent } from './sign-in-message/sign-in-message.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: '', redirectTo: '/signup', pathMatch: 'full'},
   {path: 'signup', component: SignInComponent, children:[
     {path: '', component: SignInInputComponent},
     {path: 'message', component: SignInMessageComponent},
